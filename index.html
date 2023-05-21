@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperature Control App</title>
+    <style>
+        /* CSS styles for the UI */
+        /* Add your own styling here */
+        body {
+            background-image: url('background-image.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #666;
+        }
+
+        #temperature {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"],
+        input[type="range"] {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Additional styling for the congratulatory GIF */
+        #congratsGif {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Temperature Control App</h1>
+    <div>
+        <h2>Current Temperature: <span id="temperature"></span>°C</h2>
+        <label for="thresholdTemperature">Set Temperature Threshold: </label>
+        <input type="number" id="thresholdTemperature" placeholder="Enter threshold temperature">
+        <button onclick="setThresholdsAndCheck()">Set</button>
+    </div>
+    <div>
+        <h2>Fan Control</h2>
+        <label for="fanValue">Fan Speed: </label>
+        <input type="number" id="fanValue" readonly>
+        <input type="range" id="fanSpeed" min="0" max="100" oninput="updateFanSpeed(this.value)">
+    </div>
+    <div>
+        <h2>Light Control</h2>
+        <label for="lightValue">Light Brightness: </label>
+        <input type="number" id="lightValue" readonly>
+        <input type="range" id="lightBrightness" min="0" max="100" oninput="updateLightBrightness(this.value)">
+    </div>
+
+    <audio id="buzzerSound" src="" loop></audio>
+    <script>
+        let temperatureThreshold = 250;
+        let fanThreshold = 80;
+        let lightThreshold = 50;
+
+        // Function to update temperature
+        function updateTemperature(temperature) {
+            const temperatureElement = document.getElementById('temperature');
+            temperatureElement.innerText = temperature;
+
+            // Check if temperature exceeds the threshold
+            if (temperature > temperatureThreshold) {
+                // Start playing the buzzer sound continuously
+                playBuzzerSound();
+            } else {
+                // Stop playing the buzzer sound
+                stopBuzzerSound();
+            }
+
+            // Adjust the light brightness based on the time of day
+            adjustBrightness();
+        }
+
+        // Function to play the buzzer sound
+        function playBuzzerSound() {
+            const buzzerSound = document.getElementById('buzzerSound');
+            buzzerSound.src = "buzz-sound.mp3";
+            buzzerSound.play();
+
+            // Display an alert to reduce values
+            alert('Temperature threshold exceeded! Reduce fan speed and light brightness.');
+        }
+
+        // Function to stop playing the buzzer sound
+        function stopBuzzerSound() {
+            const buzzerSound = document.getElementById('buzzerSound');
+            buzzerSound.pause();
+            buzzerSound.src = "";
+        }
+
+        // Function to set threshold values and check if values exceed thresholds
+        function setThresholdsAndCheck() {
+            const thresholdTemperatureInput = document.getElementById('thresholdTemperature');
+            temperatureThreshold = parseInt(thresholdTemperatureInput.value) || 250;
+
+            checkThresholds();
+
+            // Display a popup message for threshold value setting
+            alert('Threshold values set successfully!');
+            displayThumbsGif();
+        }
+
+        // Function to check if values exceed thresholds
+        function checkThresholds() {
+            const fanValue = parseInt(document.getElementById('fanValue').value) || 0;
+            const lightValue = parseInt(document.getElementById('lightValue').value) || 0;
+
+            if (fanValue > fanThreshold || lightValue > lightThreshold) {
+                 playBuzzerSound();
+            } else {
+                stopBuzzerSound();
+
+                // Check if the congratulatory GIF is already displayed
+                const congratsGif = document.getElementById('congratsGif');
+                if (!congratsGif) {
+                    // Display a congratulatory GIF
+                    displayCongratsGif();
+                }
+            }
+        }
+
+        // Function to update fan speed
+        function updateFanSpeed(speed) {
+            const fanValueInput = document.getElementById('fanValue');
+            fanValueInput.value = speed;
+
+            checkThresholds();
+        }
+
+        // Function to update light brightness
+        function updateLightBrightness(brightness) {
+            const lightValueInput = document.getElementById('lightValue');
+            lightValueInput.value = brightness;
+
+            checkThresholds();
+        }
+
+        // Function to adjust the light brightness based on the time of day
+        function adjustBrightness() {
+            const lightBrightnessInput = document.getElementById('lightBrightness');
+            const currentDate = new Date();
+            const currentHour = currentDate.getHours();
+
+            // Adjust the light brightness based on the time of day
+            if (currentHour >= 6 && currentHour <= 18) {
+                lightBrightnessInput.value = 50; // Set lower brightness during the day
+            } else {
+                lightBrightnessInput.value = 80; // Set higher brightness during the night
+            }
+        }
+
+        // Function to display a congratulatory GIF
+        function displayCongratsGif() {
+            // Create a new image element for the GIF
+            const congratsGif = document.createElement('img');
+            congratsGif.src = 'celebration-emoji.gif';
+            congratsGif.id = 'congratsGif'; // Set the id of the GIF element
+
+            // Append the GIF to the body element
+            document.body.appendChild(congratsGif);
+            displayGifForDuration(congratsGif, 2000); // Display the GIF for 2 seconds
+        }
+
+        function displayThumbsGif() {
+            // Create a new image element for the GIF
+            const thumbsGif = document.createElement('img');
+            thumbsGif.src = 'thumbs-up.gif';
+
+            // Append the GIF to the body element
+            document.body.appendChild(thumbsGif);
+            displayGifForDuration(thumbsGif, 2000); // Display the GIF for 2 seconds
+        }
+
+        function displayGifForDuration(gifElement, duration) {
+            setTimeout(function() {
+                document.body.removeChild(gifElement);
+            }, duration);
+        }
+
+        // Function to listen for changes in temperature data from the database
+        function listenForTemperatureChanges() {
+            database.ref('temperature').on('value', function(snapshot) {
+                const temperature = snapshot.val();
+                updateTemperature(temperature);
+            });
+        }
+
+        // Initialize the temperature listener
+        listenForTemperatureChanges();
+    </script>
+</body>
+</html>
+
