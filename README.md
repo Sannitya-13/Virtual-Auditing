@@ -22,15 +22,15 @@ This is a web application for controlling temperature, fan speed, and light brig
 
 ## Usage
 
-**1.** *Set Temperature Threshold:
+**1.** Set Temperature Threshold:
    - Enter the desired temperature threshold in degrees Celsius.
    - Click the "Set" button to save the threshold.
 
-**2.** *Fan Control:
+**2.** Fan Control:
    - Use the slider input to adjust the fan speed.
    - The current fan speed is displayed as a numerical value.
 
-**3.** *Light Control:
+**3.** Light Control:
    - Use the slider input to adjust the light brightness.
    - The current light brightness is displayed as a numerical value.
 
@@ -47,7 +47,7 @@ To get started with the Temperature Control App, follow these steps:
 
 **3.** Use the app to control temperature, fan speed, and light brightness.
 
-**This is just frontend part.Im still doing cloud part for storing values in dummy data base.I would be happy if anyone helps me.**
+**This is just frontend part. Im still doing cloud part for storing values in dummy data base. I would be happy if anyone helps me.**
 
 ## Contact
 If you have any questions or inquiries regarding the Public Bicycle Rental System, please feel free to contact me at [**mssannitya@gmail.com**].
