@@ -1,9 +1,9 @@
-# Temperature Control App - README
+# Temperature Control Website
 
 ## Welcome to the Temperature Control Website! 🌡️🌀💡
 
 
-Experience ultimate control over your environment with the Temperature Control App. This web application is designed to put the power of temperature, fan speed, and light brightness regulation at your fingertips. Stay comfortable and in charge with real-time monitoring, threshold alerts, and effortless adjustments.
+Experience ultimate control over your environment with the Temperature Control Website. This web application is designed to put the power of temperature, fan speed, and light brightness regulation at your fingertips. Stay comfortable and in charge with real-time monitoring, threshold alerts, and effortless adjustments.
 
 ## Key Features
 
